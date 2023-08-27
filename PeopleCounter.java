@@ -1,4 +1,5 @@
 package clubSimulation;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PeopleCounter {
@@ -52,10 +53,17 @@ public class PeopleCounter {
 		
 	}
 	//too many people inside
-	synchronized public boolean overCapacity() {
-		if(peopleInside.get()>=maxPeople.get())
-			return true;
-		return false;
+	synchronized public AtomicBoolean overCapacity() {
+
+		AtomicBoolean result = new AtomicBoolean(false);
+		if(peopleInside.get()>=maxPeople.get()){
+			 result.set(true);
+		}
+		else{
+			result.set(false);
+		}
+			
+		return result;
 	}
 
 	
