@@ -15,7 +15,10 @@ public class ClubGrid {
 	private final static int minX =5;//minimum x dimension
 	private final static int minY =5;//minimum y dimension
 	
+	
+	
 	private PeopleCounter counter;
+
 	
 	ClubGrid(int x, int y, int [] exitBlocks,PeopleCounter c) throws InterruptedException {
 		if (x<minX) x=minX; //minimum x
@@ -37,7 +40,7 @@ public class ClubGrid {
 				boolean bar=false;
 				boolean dance_block=false;
 				if ((i==exitBlocks[0])&&(j==exitBlocks[1])) {exit_block=true;}
-				else if (j>=(y-3)) bar=true; 
+				else if (j>=(y-3)) bar=true;
 				else if ((i>x/2) && (j>3) &&(j< (y-5))) dance_block=true;
 				//bar is hardcoded two rows before  the end of the club
 				Blocks[i][j]=new GridBlock(i,j,exit_block,bar,dance_block);
@@ -74,9 +77,13 @@ public class ClubGrid {
 		
 		synchronized(counter){
 			counter.personArrived(); //add to counter of people waiting
-			while(counter.overCapacity()){
-			counter.wait();
+			try{
+				while(counter.overCapacity().get()){ //flag that tells threads to wait
+				counter.wait();
 		}
+			}
+			catch(InterruptedException e){}
+			
 		entrance.get(myLocation.getID());
 		counter.personEntered(); //add to counter
 		myLocation.setLocation(entrance);
@@ -87,6 +94,9 @@ public class ClubGrid {
 	
 	
 	public GridBlock move(GridBlock currentBlock,int step_x, int step_y,PeopleLocation myLocation) throws InterruptedException {  //try to move in 
+		
+		synchronized(currentBlock){
+
 		
 		int c_x= currentBlock.getX();
 		int c_y= currentBlock.getY();
@@ -110,14 +120,18 @@ public class ClubGrid {
 		currentBlock.release(); //must release current block
 		myLocation.setLocation(newBlock);
 		return newBlock;
-	}
+	}}
 	
 
 	public  void leaveClub(GridBlock currentBlock,PeopleLocation myLocation)   {
-			currentBlock.release();
-			counter.personLeft(); //add to counter
-			myLocation.setInRoom(false);
-			entrance.notifyAll();
+				
+				synchronized(counter){
+				currentBlock.release();
+				counter.personLeft(); //add to counter
+				myLocation.setInRoom(false);
+				counter.overCapacity().set(false);
+				counter.notifyAll();
+				}
 	}
 
 	public GridBlock getExit() {
