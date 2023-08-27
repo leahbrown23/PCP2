@@ -4,7 +4,7 @@ package clubSimulation;
 // only one thread at a time "owns" a GridBlock
 
 public class GridBlock {
-	private int isOccupied; 
+	private int isOccupied;
 	private final boolean isExit;  //is tthis the exit door?
 	private final boolean isBar; //is it a bar block?
 	private final boolean isDance; //is it the dance area?
@@ -33,23 +33,23 @@ public class GridBlock {
 		return true;
 	}
 		
-	public void release() {
+	public synchronized void release() {
 		isOccupied=-1;
 	}
 	
-	public  boolean occupied() {
+	public synchronized boolean occupied() {
 		if(isOccupied==-1) return false;
 		return true;
 	}
 	
-	public boolean isExit() {
+	public synchronized boolean isExit() {
 		return isExit;
 	}
 
-	public   boolean isBar() {
+	public synchronized  boolean isBar() {
 		return isBar;
 	}
-	public   boolean isDanceFloor() {
+	public synchronized  boolean isDanceFloor() {
 		return isDance;
 	}
 
