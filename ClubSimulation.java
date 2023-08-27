@@ -27,7 +27,7 @@ public class ClubSimulation {
 	
 	static PeopleCounter tallys; //counters for number of people inside and outside club
 
-	static CountDownLatch latch = new CountDownLatch(1);
+	static CountDownLatch latch = new CountDownLatch(1); // create the latch
 
 	static ClubView clubView; //threaded panel to display terrain
 	static ClubGrid clubGrid; // club grid
@@ -74,7 +74,7 @@ public class ClubSimulation {
 		    public void actionPerformed(ActionEvent e)  {
 			    	  	// THIS DOES NOTHING - MUST BE FIXED
 
-				latch.countDown();
+				latch.countDown(); // release threads
 
 		    }
 		   });
@@ -87,11 +87,11 @@ public class ClubSimulation {
 		    		// THIS DOES NOTHING - MUST BE FIXED
 					synchronized(Clubgoer.pause){
 						if(Clubgoer.pause.get()){
-							Clubgoer.pause.set(false);
+							Clubgoer.pause.set(false); // resume threads
 							Clubgoer.pause.notifyAll();
 						}
 						else{
-							Clubgoer.pause.set(true);
+							Clubgoer.pause.set(true); // pause threads
 						}
 						
 
