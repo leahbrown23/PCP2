@@ -1,0 +1,16 @@
+Author: Leah Brown <23leahbrown@gmail.com>
+Date:   Sun Aug 27 19:39:09 2023 +0200
+
+    makefile and updated wait
+
+commit 852bd1343a24198ea13e6b1f096927096c1d98e5
+Author: Leah Brown <23leahbrown@gmail.com>
+Date:   Fri Aug 25 22:52:57 2023 +0200
+
+    max people and wait
+
+commit dd2c3a209871601638ec3df8e329bdfb7de5de30
+Author: Leah Brown <23leahbrown@gmail.com>
+Date:   Thu Aug 24 07:28:24 2023 +0200
+
+    start and pause buttons
